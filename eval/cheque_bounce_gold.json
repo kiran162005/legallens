@@ -1,0 +1,96 @@
+[
+  {
+    "id": "cb_001",
+    "document_text": "LEGAL NOTICE\n\nTo: Mr. Rajesh Kumar, No. 45, 4th Cross, Jayanagar, Bangalore - 560011\n\nSubject: Notice under Section 138 of the Negotiable Instruments Act, 1881 regarding dishonour of cheque\n\nSir,\n\nUnder instructions from and on behalf of my client Mr. Suresh Patel, I serve upon you the following notice:\n\n1. That you had issued Cheque No. 002145 dated 12-03-2026 drawn on HDFC Bank, Jayanagar Branch, for a sum of Rs. 3,50,000/- (Rupees Three Lakh Fifty Thousand only) in favour of my client towards repayment of a loan advanced to you.\n\n2. That the said cheque, when presented for encashment by my client through his banker on 15-03-2026, was returned unpaid vide Bank's memo dated 18-03-2026 with the remark \"Funds Insufficient\".\n\n3. That my client received intimation of the said dishonour from his bank on 19-03-2026.\n\n4. You are hereby called upon to pay the said sum of Rs. 3,50,000/- to my client within 15 days of receipt of this notice, failing which my client shall be constrained to initiate criminal proceedings against you under Section 138 of the Negotiable Instruments Act, 1881, besides civil proceedings for recovery of the said amount, all costs of which shall be borne by you.\n\nTake notice accordingly.",
+    "expected_claims": [
+      {
+        "claim_topic": "what offence has occurred",
+        "expected_section": "138",
+        "expected_citation": "Section 138, Negotiable Instruments Act, 1881",
+        "notes": "Core offence: cheque returned unpaid due to insufficient funds, drawn for discharge of a debt/liability"
+      },
+      {
+        "claim_topic": "notice timing validity (30-day window from bank intimation)",
+        "expected_section": "138",
+        "expected_citation": "Section 138(b), Negotiable Instruments Act, 1881",
+        "notes": "Notice dated within 30 days of 19-03-2026 intimation would be valid; system should be able to reason about this proviso"
+      },
+      {
+        "claim_topic": "15-day payment window given to drawer",
+        "expected_section": "138",
+        "expected_citation": "Section 138(c), Negotiable Instruments Act, 1881",
+        "notes": "Drawer must pay within 15 days of receipt of notice before offence is complete"
+      },
+      {
+        "claim_topic": "punishment if convicted",
+        "expected_section": "138",
+        "expected_citation": "Section 138, Negotiable Instruments Act, 1881",
+        "notes": "Imprisonment up to 2 years, or fine up to twice the cheque amount, or both"
+      },
+      {
+        "claim_topic": "presumption favouring the holder",
+        "expected_section": "139",
+        "expected_citation": "Section 139, Negotiable Instruments Act, 1881",
+        "notes": "Presumption that the cheque was issued for discharge of a debt unless drawer proves otherwise"
+      }
+    ],
+    "out_of_scope_check": false
+  },
+  {
+    "id": "cb_002",
+    "document_text": "NOTICE OF DEMAND\n\nTo: M/s Bright Traders Pvt. Ltd., Through its Director, 22 MG Road, Bangalore\n\nThis is to notify you that the cheque bearing No. 778812 dated 01-02-2026 for Rs. 80,000/- issued by your company in favour of the undersigned towards supply of goods, was presented and dishonoured on 10-02-2026 with the remark \"Account Closed\".\n\nAs the Director responsible for the conduct of the company's business at the time, you along with the company are liable. Payment is demanded within fifteen days, failing which legal action shall follow.",
+    "expected_claims": [
+      {
+        "claim_topic": "company and director liability",
+        "expected_section": "141",
+        "expected_citation": "Section 141, Negotiable Instruments Act, 1881",
+        "notes": "When offence committed by a company, every person in charge of and responsible for conduct of business at the time is deemed guilty along with the company"
+      },
+      {
+        "claim_topic": "underlying offence",
+        "expected_section": "138",
+        "expected_citation": "Section 138, Negotiable Instruments Act, 1881",
+        "notes": "Account closed still falls under dishonour for insufficiency/account issues triggering Section 138"
+      },
+      {
+        "claim_topic": "15-day payment window",
+        "expected_section": "138",
+        "expected_citation": "Section 138(c), Negotiable Instruments Act, 1881",
+        "notes": "Same 15-day cure period applies"
+      }
+    ],
+    "out_of_scope_check": false
+  },
+  {
+    "id": "cb_003",
+    "document_text": "We refer to the dishonoured cheque no. 556321 dated 20-04-2026 for Rs. 1,20,000 issued by you. The cheque was dishonoured on 25-04-2026. We are filing a criminal complaint before the Judicial Magistrate First Class. Please note settlement may still be possible.",
+    "expected_claims": [
+      {
+        "claim_topic": "where complaint can be filed / court of cognizance",
+        "expected_section": "142",
+        "expected_citation": "Section 142, Negotiable Instruments Act, 1881",
+        "notes": "Complaint must be in writing by payee/holder, within one month of cause of action, no court inferior to JMFC/Metropolitan Magistrate can try it"
+      },
+      {
+        "claim_topic": "possibility of settlement / compounding",
+        "expected_section": "147",
+        "expected_citation": "Section 147, Negotiable Instruments Act, 1881",
+        "notes": "Offences under the Act are compoundable notwithstanding CrPC"
+      },
+      {
+        "claim_topic": "trial procedure",
+        "expected_section": "143",
+        "expected_citation": "Section 143, Negotiable Instruments Act, 1881",
+        "notes": "Tried summarily by JMFC/Metropolitan Magistrate"
+      }
+    ],
+    "out_of_scope_check": false
+  },
+  {
+    "id": "cb_004_out_of_scope",
+    "document_text": "NOTICE TO VACATE\n\nTo: Mrs. Lakshmi Iyer, Tenant, Flat No. 12, Green Meadows Apartments, Indiranagar, Bangalore.\n\nYou are hereby called upon to vacate the above premises within 30 days of receipt of this notice, as your tenancy is being terminated on grounds of the landlord requiring the premises for personal occupation.",
+    "expected_claims": [],
+    "out_of_scope_check": true,
+    "notes": "This is an eviction notice, not a cheque bounce notice. System should classify out-of-scope (for cheque-bounce-only pipeline) and refuse rather than hallucinate NI Act citations."
+  }
+]
