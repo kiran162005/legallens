@@ -15,3 +15,16 @@ An AI system that reads Indian legal documents and explains them in plain langua
 | Avg grounding confidence | 0.816 |
 | Uncited claim rate | 0.000 |
 | Out-of-scope accuracy | 1.000 |
+
+## Stack
+Python · FAISS · sentence-transformers (all-MiniLM-L6-v2) · Groq (Llama 3.1) · FastAPI
+
+## Run locally
+```bash
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+cp .env.example .env  # add your GROQ_API_KEY
+cd backend && python pipeline.py
+python eval_run.py
+```
