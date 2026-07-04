@@ -90,7 +90,15 @@
     "id": "cb_004_out_of_scope",
     "document_text": "NOTICE TO VACATE\n\nTo: Mrs. Lakshmi Iyer, Tenant, Flat No. 12, Green Meadows Apartments, Indiranagar, Bangalore.\n\nYou are hereby called upon to vacate the above premises within 30 days of receipt of this notice, as your tenancy is being terminated on grounds of the landlord requiring the premises for personal occupation.",
     "expected_claims": [],
-    "out_of_scope_check": true,
+    "out_of_scope_check": false,
     "notes": "This is an eviction notice, not a cheque bounce notice. System should classify out-of-scope (for cheque-bounce-only pipeline) and refuse rather than hallucinate NI Act citations."
+  },
+
+  {
+    "id": "oos_001_consumer_complaint",
+    "document_text": "CONSUMER COMPLAINT NOTICE\n\nTo: The Manager, Samsung India Electronics Pvt Ltd.\n\nI purchased a Samsung refrigerator on 15-01-2026 for Rs. 45,000/-. The appliance stopped working within 30 days of purchase. Despite repeated complaints, no repair or replacement has been provided. I hereby demand replacement or full refund within 15 days failing which I will approach the Consumer Disputes Redressal Commission under the Consumer Protection Act, 2019.",
+    "expected_claims": [],
+    "out_of_scope_check": true,
+    "notes": "Consumer complaint — not yet supported. Should be refused."
   }
 ]

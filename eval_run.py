@@ -17,24 +17,27 @@ import sys
 import re
 from datetime import datetime
 
-# pipeline lives in backend/
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "backend"))
 from pipeline import LegalLensPipeline
 
-GOLD_SET_PATH = os.path.join(os.path.dirname(__file__), "eval", "cheque_bounce_gold.json")
+GOLD_SETS = [
+    os.path.join(os.path.dirname(__file__), "eval", "cheque_bounce_gold.json"),
+    os.path.join(os.path.dirname(__file__), "eval", "eviction_notice_gold.json"),
+]
 RESULTS_DIR = os.path.join(os.path.dirname(__file__), "eval", "results")
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
 
 def normalize_section(citation: str) -> str:
-    """Extract bare section number from a citation string for comparison."""
-    m = re.search(r'\b(\d+[A-Z]?)\b', citation)
+    # extract just the leading section number e.g. "27" from "27(2)(a)" or "138" from "143A"
+    m = re.search(r'\b(\d+[A-Z]?)', citation)
     return m.group(1).upper() if m else citation.strip().upper()
 
-
 def run_eval():
-    with open(GOLD_SET_PATH) as f:
-        gold_set = json.load(f)
+    gold_set = []
+    for path in GOLD_SETS:
+        with open(path) as f:
+            gold_set.extend(json.load(f))
 
     pipeline = LegalLensPipeline()
 
@@ -63,7 +66,6 @@ def run_eval():
             "low_confidence_warning": result["low_confidence_warning"],
         }
 
-        # ── out-of-scope accuracy ─────────────────────────────────────────────
         if is_oos:
             oos_total += 1
             if result["out_of_scope"]:
@@ -74,13 +76,12 @@ def run_eval():
             all_results.append(entry_result)
             continue
 
-        # ── citation hit rate ─────────────────────────────────────────────────
         generated_sections = set(
             normalize_section(c["full_citation"])
             for c in result["claims"]
         )
         expected_sections = set(
-            normalize_section(ec["expected_citation"])
+            normalize_section(ec.get("expected_citation", ec.get("expected_section", "")))
             for ec in entry.get("expected_claims", [])
         )
 
@@ -88,7 +89,6 @@ def run_eval():
         citation_hits += hits
         citation_total += len(expected_sections)
 
-        # ── claim-level grounding ─────────────────────────────────────────────
         for claim in result["claims"]:
             total_claims += 1
             conf = claim["grounding_confidence"]
@@ -102,7 +102,6 @@ def run_eval():
         print(f"citations {hits}/{len(expected_sections)} | avg_conf={avg_conf:.2f} | {'⚠ LOW CONF' if result['low_confidence_warning'] else '✅'}")
         all_results.append(entry_result)
 
-    # ── summary ───────────────────────────────────────────────────────────────
     citation_hit_rate = citation_hits / citation_total if citation_total else 0
     avg_grounding_conf = sum(all_grounding_confs) / len(all_grounding_confs) if all_grounding_confs else 0
     uncited_rate = uncited_count / total_claims if total_claims else 0
@@ -110,7 +109,7 @@ def run_eval():
     oos_accuracy = oos_correct / oos_total if oos_total else 0
 
     summary = {
-        "run_timestamp": datetime.utcnow().isoformat() + "Z",
+        "run_timestamp": datetime.now().isoformat() + "Z",
         "citation_hit_rate": round(citation_hit_rate, 3),
         "avg_grounding_confidence": round(avg_grounding_conf, 3),
         "uncited_claim_rate": round(uncited_rate, 3),
@@ -125,8 +124,7 @@ def run_eval():
         if k != "run_timestamp":
             print(f"  {k:<30} {v}")
 
-    # ── save timestamped result ───────────────────────────────────────────────
-    ts = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     out_path = os.path.join(RESULTS_DIR, f"eval_run_{ts}.json")
     with open(out_path, "w") as f:
         json.dump({"summary": summary, "per_document": all_results}, f, indent=2)

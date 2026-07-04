@@ -48,6 +48,19 @@ SUPPORTED_TYPES = {
             "drawer", "payee", "bank memo", "returned unpaid",
         ],
         "description": "Cheque bounce demand notice (NI Act Section 138)",
+    },
+
+    "eviction_notice": {
+        "corpus_path": os.path.join(
+            os.path.dirname(__file__), "..", "corpus", "karnataka_rent_act_eviction.json"
+        ),
+        "keywords": [
+            "vacate", "eviction", "evict", "notice to quit", "tenant", "landlord",
+            "premises", "possession", "rent arrears", "leave the premises",
+            "rental agreement", "notice to vacate", "recovery of possession",
+            "karnataka rent", "terminate tenancy",
+        ],
+        "description": "Eviction notice (Karnataka Rent Act 1999)",
     }
     # eviction_notice, rental_agreement, fir, consumer_complaint → added in next sprint
 }
@@ -120,15 +133,18 @@ def compute_grounding_confidence(claim_text: str, source_quote: str, chunk_text:
 
 def find_chunk_by_citation(citation: str, retrieved_chunks: list[RetrievedChunk]) -> RetrievedChunk | None:
     """Find the retrieved chunk whose citation matches the one the model cited."""
-    section_num = re.search(r'\b(\d+[A-Z]?)\b', citation)
-    if not section_num:
-        return None
-    sec = section_num.group(1).upper()
+    citation_lower = citation.lower().strip()
     for chunk in retrieved_chunks:
-        if chunk.section_number.upper() == sec:
+        if chunk.section_number.lower() in citation_lower:
             return chunk
+    # fallback: match just the leading number
+    section_num = re.search(r'\b(\d+[A-Z]?)\b', citation)
+    if section_num:
+        sec = section_num.group(1).upper()
+        for chunk in retrieved_chunks:
+            if chunk.section_number.upper().startswith(sec):
+                return chunk
     return None
-
 
 # ── main pipeline ─────────────────────────────────────────────────────────────
 
@@ -188,12 +204,22 @@ class LegalLensPipeline:
 
         # multi-query retrieval: search on full doc + specific sub-queries
         # this handles short documents that don't surface all relevant sections
-        sub_queries = [
-            document_text,
-            "criminal complaint court filing magistrate cognizance",
-            "settlement compounding payment dispute resolution",
-            "trial procedure summary conviction punishment",
-        ]
+        sub_queries_map = {
+    "cheque_bounce": [
+        document_text,
+        "criminal complaint court filing magistrate cognizance",
+        "settlement compounding payment dispute resolution",
+        "trial procedure summary conviction punishment",
+    ],
+    "eviction_notice": [
+        document_text,
+        "grounds for eviction landlord tenant recovery possession",
+        "notice period rent arrears non-payment Karnataka",
+        "bona fide personal requirement subletting misuse premises",
+    ],
+}
+        sub_queries = sub_queries_map.get(doc_type, [document_text])
+
         seen_ids = set()
         retrieved = []
         for query in sub_queries:

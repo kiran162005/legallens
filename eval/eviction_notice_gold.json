@@ -1,0 +1,85 @@
+[
+  {
+    "id": "ev_001",
+    "document_text": "NOTICE TO VACATE\n\nTo: Mr. Arun Sharma\nFlat No. 8, 2nd Floor, Shree Residency, 15th Cross, Malleshwaram, Bangalore - 560003\n\nSir,\n\nUnder instructions from my client Mrs. Kavitha Reddy, owner of the above-mentioned premises, I hereby issue this notice to you.\n\nYou are a tenant in the said premises at a monthly rent of Rs. 18,000/- per month. You have failed to pay rent for the months of April, May and June 2026 despite repeated requests. The total arrears outstanding are Rs. 54,000/-.\n\nYou are hereby called upon to pay the said arrears of Rs. 54,000/- within two months from the date of receipt of this notice. Failing which, my client shall be constrained to initiate eviction proceedings before the appropriate Rent Control Court under the Karnataka Rent Act, 1999.\n\nTake notice accordingly.",
+    "expected_claims": [
+      {
+        "claim_topic": "general protection — eviction only through court order",
+        "expected_section": "27(1)",
+        "expected_citation": "Section 27(1), Karnataka Rent Act, 1999"
+      },
+      {
+        "claim_topic": "non-payment of rent as ground for eviction",
+        "expected_section": "27(2)(a)",
+        "expected_citation": "Section 27(2)(a), Karnataka Rent Act, 1999"
+      },
+      {
+        "claim_topic": "two month window to pay arrears after notice",
+        "expected_section": "27(2)(a)",
+        "expected_citation": "Section 27(2)(a), Karnataka Rent Act, 1999"
+      },
+      {
+        "claim_topic": "tenant must continue paying rent during eviction proceedings",
+        "expected_section": "45",
+        "expected_citation": "Section 45, Karnataka Rent Act, 1999"
+      }
+    ],
+    "out_of_scope_check": false
+  },
+  {
+    "id": "ev_002",
+    "document_text": "LEGAL NOTICE\n\nTo: Mr. Imran Khan\n12, Ground Floor, Green Park Layout, Whitefield, Bangalore - 560066\n\nThis notice is issued on behalf of my client Mr. Raghunath Shetty, the owner and landlord of the above premises.\n\nYou were let into possession of the said premises for residential purposes only at a monthly rent of Rs. 22,000/-. It has come to my client's notice that you have, without obtaining prior written consent of my client, sublet the said premises to a third party, one Mr. Vikram Das, who is presently occupying the premises.\n\nThis act of subletting without consent is in clear violation of your tenancy agreement and the Karnataka Rent Act, 1999. You are hereby called upon to restore exclusive possession to my client or remove the sub-tenant immediately. Failing compliance within 30 days, eviction proceedings shall be initiated.",
+    "expected_claims": [
+      {
+        "claim_topic": "subletting without written consent as ground for eviction",
+        "expected_section": "27(2)(b)",
+        "expected_citation": "Section 27(2)(b), Karnataka Rent Act, 1999"
+      },
+      {
+        "claim_topic": "restriction on subletting without landlord consent",
+        "expected_section": "32",
+        "expected_citation": "Section 32, Karnataka Rent Act, 1999"
+      },
+      {
+        "claim_topic": "eviction only through court — tenant protection",
+        "expected_section": "27(1)",
+        "expected_citation": "Section 27(1), Karnataka Rent Act, 1999"
+      }
+    ],
+    "out_of_scope_check": false
+  },
+  {
+    "id": "ev_003",
+    "document_text": "NOTICE FOR RECOVERY OF POSSESSION\n\nTo: Ms. Priya Nair\nNo. 22, Lotus Apartments, JP Nagar 4th Phase, Bangalore - 560078\n\nOn behalf of my client Mr. Suresh Babu, I issue this notice.\n\nMy client is the bonafide owner of the above premises which are currently in your tenancy at Rs. 15,000/- per month. My client now requires the said premises for his own occupation, as he is relocating from Mysore to Bangalore permanently and has no other suitable accommodation in Bangalore.\n\nYou are therefore requested to vacate the said premises and hand over vacant possession to my client within 60 days of receipt of this notice. In the event you fail to vacate, my client will be constrained to file an appropriate application before the Rent Control Court.",
+    "expected_claims": [
+      {
+        "claim_topic": "bona fide personal requirement as ground for eviction",
+        "expected_section": "27(2)(r)",
+        "expected_citation": "Section 27(2)(r), Karnataka Rent Act, 1999"
+      },
+      {
+        "claim_topic": "landlord must have no other suitable accommodation",
+        "expected_section": "27(2)(r)",
+        "expected_citation": "Section 27(2)(r), Karnataka Rent Act, 1999"
+      },
+      {
+        "claim_topic": "eviction only through court order — general protection",
+        "expected_section": "27(1)",
+        "expected_citation": "Section 27(1), Karnataka Rent Act, 1999"
+      },
+      {
+        "claim_topic": "re-letting restriction after landlord recovers possession",
+        "expected_section": "35",
+        "expected_citation": "Section 35, Karnataka Rent Act, 1999"
+      }
+    ],
+    "out_of_scope_check": false
+  },
+  {
+    "id": "ev_004_out_of_scope",
+    "document_text": "LEGAL NOTICE UNDER SECTION 138\n\nTo: Mr. Sanjay Mehta\n44, Brigade Road, Bangalore - 560001\n\nYou had issued Cheque No. 445521 dated 10-05-2026 for Rs. 2,00,000/- which was returned unpaid with the remark 'Insufficient Funds'. You are called upon to pay the said amount within 15 days failing which criminal proceedings will be initiated under Section 138 of the Negotiable Instruments Act, 1881.",
+    "expected_claims": [],
+    "out_of_scope_check": false,
+    "notes": "This is a cheque bounce notice — should be classified as cheque_bounce, NOT eviction_notice. Tests that the keyword classifier correctly routes to the right corpus."
+  }
+]
