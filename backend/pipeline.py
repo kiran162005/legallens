@@ -61,7 +61,20 @@ SUPPORTED_TYPES = {
             "karnataka rent", "terminate tenancy",
         ],
         "description": "Eviction notice (Karnataka Rent Act 1999)",
-    }
+    },
+
+    "fir": {
+    "corpus_path": os.path.join(
+        os.path.dirname(__file__), "..", "corpus", "bnss_bns_fir.json"
+    ),
+    "keywords": [
+        "fir", "first information report", "police complaint", "police station",
+        "cognizable", "theft", "stolen", "assault", "cheating", "fraud",
+        "deceived", "hurt", "attack", "accused", "complainant", "investigation",
+        "section 173", "bnss", "bns",
+    ],
+    "description": "First Information Report (BNSS + BNS — theft, assault, cheating)",
+}
     # eviction_notice, rental_agreement, fir, consumer_complaint → added in next sprint
 }
 
@@ -217,6 +230,13 @@ class LegalLensPipeline:
         "notice period rent arrears non-payment Karnataka",
         "bona fide personal requirement subletting misuse premises",
     ],
+    "fir": [
+    document_text,
+    "FIR registration police duty cognizable offence procedure",
+    "theft stolen property punishment dwelling house",
+    "assault hurt grievous hurt criminal force punishment",
+    "cheating fraud deception property wrongful loss",
+],
 }
         sub_queries = sub_queries_map.get(doc_type, [document_text])
 

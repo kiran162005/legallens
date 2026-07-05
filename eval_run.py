@@ -16,6 +16,7 @@ import os
 import sys
 import re
 from datetime import datetime
+import time
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "backend"))
 from pipeline import LegalLensPipeline
@@ -23,6 +24,7 @@ from pipeline import LegalLensPipeline
 GOLD_SETS = [
     os.path.join(os.path.dirname(__file__), "eval", "cheque_bounce_gold.json"),
     os.path.join(os.path.dirname(__file__), "eval", "eviction_notice_gold.json"),
+    os.path.join(os.path.dirname(__file__), "eval", "fir_gold.json"),
 ]
 RESULTS_DIR = os.path.join(os.path.dirname(__file__), "eval", "results")
 os.makedirs(RESULTS_DIR, exist_ok=True)
@@ -56,6 +58,7 @@ def run_eval():
         print(f"[{doc_id}] {'OUT-OF-SCOPE' if is_oos else 'in-scope'}", end=" ... ")
 
         result = pipeline.run(entry["document_text"])
+        time.sleep(3)  # avoid Groq TPM rate limit
 
         entry_result = {
             "id": doc_id,

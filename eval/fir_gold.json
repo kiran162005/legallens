@@ -1,0 +1,90 @@
+[
+  {
+    "id": "fir_001_theft",
+    "document_text": "FIRST INFORMATION REPORT\n\nPolice Station: Jayanagar, Bangalore\nDate: 02-07-2026\n\nComplainant: Mr. Vinod Nair, No. 12, 8th Cross, Jayanagar, Bangalore\n\nI wish to report that on the night of 01-07-2026, unknown persons broke into my house at the above address while my family and I were sleeping. Upon waking up, I found that my laptop, mobile phone, gold jewellery worth approximately Rs. 2,50,000/- and Rs. 15,000/- cash kept in the cupboard had been stolen. The cupboard lock was broken. I request the police to register an FIR and investigate the matter.\n\nSignature of Complainant: Vinod Nair",
+    "expected_claims": [
+      {
+        "claim_topic": "FIR registration procedure — police duty to register",
+        "expected_section": "173",
+        "expected_citation": "Section 173, Bharatiya Nagarik Suraksha Sanhita, 2023 (BNSS)"
+      },
+      {
+        "claim_topic": "theft definition — dishonest taking without consent",
+        "expected_section": "303",
+        "expected_citation": "Section 303, Bharatiya Nyaya Sanhita, 2023 (BNS)"
+      },
+      {
+        "claim_topic": "theft in dwelling house — enhanced punishment up to 7 years",
+        "expected_section": "305",
+        "expected_citation": "Section 305, Bharatiya Nyaya Sanhita, 2023 (BNS)"
+      },
+      {
+        "claim_topic": "police power to investigate without magistrate order",
+        "expected_section": "175",
+        "expected_citation": "Section 175, Bharatiya Nagarik Suraksha Sanhita, 2023 (BNSS)"
+      }
+    ],
+    "out_of_scope_check": false
+  },
+  {
+    "id": "fir_002_assault",
+    "document_text": "COMPLAINT FOR FIR REGISTRATION\n\nTo: The Station House Officer\nPolice Station: Koramangala, Bangalore\n\nI, Ms. Deepa Sharma, residing at 45, 5th Block, Koramangala, Bangalore, hereby lodge this complaint.\n\nOn 30-06-2026 at approximately 8 PM, my neighbour Mr. Ramesh Gowda attacked me near the entrance of our apartment building. He slapped me multiple times and threatened to cause further harm. I sustained injuries on my face and had to seek medical treatment. Witnesses to the incident include Mrs. Savitha, another resident of the building.\n\nI request registration of FIR and appropriate action under the law.",
+    "expected_claims": [
+      {
+        "claim_topic": "FIR registration — cognizable offence procedure",
+        "expected_section": "173",
+        "expected_citation": "Section 173, Bharatiya Nagarik Suraksha Sanhita, 2023 (BNSS)"
+      },
+      {
+        "claim_topic": "assault definition — gesture causing apprehension of criminal force",
+        "expected_section": "130",
+        "expected_citation": "Section 130, Bharatiya Nyaya Sanhita, 2023 (BNS)"
+      },
+      {
+        "claim_topic": "voluntarily causing hurt — definition and punishment",
+        "expected_section": "115",
+        "expected_citation": "Section 115, Bharatiya Nyaya Sanhita, 2023 (BNS)"
+      },
+      {
+        "claim_topic": "investigation procedure — examining witnesses",
+        "expected_section": "176",
+        "expected_citation": "Section 176, Bharatiya Nagarik Suraksha Sanhita, 2023 (BNSS)"
+      }
+    ],
+    "out_of_scope_check": false
+  },
+  {
+    "id": "fir_003_cheating",
+    "document_text": "FIRST INFORMATION REPORT\n\nPolice Station: MG Road, Bangalore\nDate: 03-07-2026\n\nComplainant: Mr. Arjun Mehta, 22, Brigade Road, Bangalore\n\nI wish to report a case of cheating and fraud. One Mr. Suraj Verma approached me in April 2026 representing himself as a licensed real estate agent. He showed me a property in Whitefield and collected Rs. 5,00,000/- as advance for the said property. He provided me fake documents showing himself as the authorised agent of the property owner. Subsequently it was discovered that Mr. Verma had no authority over the property and had deceived me into parting with the money. Despite repeated requests he has neither returned the money nor provided any explanation. I have been cheated of Rs. 5,00,000/-.\n\nI request the police to register an FIR and arrest the accused.",
+    "expected_claims": [
+      {
+        "claim_topic": "FIR registration — police duty for cognizable offence",
+        "expected_section": "173",
+        "expected_citation": "Section 173, Bharatiya Nagarik Suraksha Sanhita, 2023 (BNSS)"
+      },
+      {
+        "claim_topic": "cheating definition — deception inducing delivery of property",
+        "expected_section": "318",
+        "expected_citation": "Section 318, Bharatiya Nyaya Sanhita, 2023 (BNS)"
+      },
+      {
+        "claim_topic": "cheating punishment — dishonestly inducing delivery of property",
+        "expected_section": "318",
+        "expected_citation": "Section 318, Bharatiya Nyaya Sanhita, 2023 (BNS)"
+      },
+      {
+        "claim_topic": "investigation — police power to investigate",
+        "expected_section": "175",
+        "expected_citation": "Section 175, Bharatiya Nagarik Suraksha Sanhita, 2023 (BNSS)"
+      }
+    ],
+    "out_of_scope_check": false
+  },
+  {
+    "id": "fir_004_out_of_scope",
+    "document_text": "NOTICE TO VACATE\n\nTo: Mr. Suresh Babu\nFlat No. 5, Sunrise Apartments, HSR Layout, Bangalore\n\nYou are hereby called upon to vacate the above premises within 60 days of receipt of this notice. My client requires the premises for personal occupation under the Karnataka Rent Act, 1999.",
+    "expected_claims": [],
+    "out_of_scope_check": false,
+    "notes": "Eviction notice — should route to eviction_notice corpus, not FIR. Tests cross-type routing."
+  }
+]
