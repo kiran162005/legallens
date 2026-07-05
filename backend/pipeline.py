@@ -74,7 +74,20 @@ SUPPORTED_TYPES = {
         "section 173", "bnss", "bns",
     ],
     "description": "First Information Report (BNSS + BNS — theft, assault, cheating)",
-}
+},
+
+    "rental_agreement": {
+    "corpus_path": os.path.join(
+        os.path.dirname(__file__), "..", "corpus", "rental_agreement_acts.json"
+    ),
+    "keywords": [
+        "rental agreement", "rent agreement", "lease agreement", "lease deed",
+        "stamp duty", "security deposit", "notice period", "monthly rent",
+        "landlord", "tenant", "lessor", "lessee", "licence fee",
+        "e-stamp", "registration", "11 month", "lock-in period",
+    ],
+    "description": "Rental/lease agreement (Registration Act + Karnataka Stamp Act + Contract Act)",
+},
     # eviction_notice, rental_agreement, fir, consumer_complaint → added in next sprint
 }
 
@@ -147,16 +160,35 @@ def compute_grounding_confidence(claim_text: str, source_quote: str, chunk_text:
 def find_chunk_by_citation(citation: str, retrieved_chunks: list[RetrievedChunk]) -> RetrievedChunk | None:
     """Find the retrieved chunk whose citation matches the one the model cited."""
     citation_lower = citation.lower().strip()
+
+    # first try: match both section number AND act name keywords
+    act_keywords = {
+        "registration act": "registration act",
+        "stamp act": "stamp act",
+        "contract act": "contract act",
+        "transfer of property": "transfer of property",
+        "negotiable instruments": "negotiable instruments",
+        "karnataka rent": "karnataka rent",
+        "bnss": "bnss",
+        "bns": "bns",
+    }
+    citation_act = None
+    for key in act_keywords:
+        if key in citation_lower:
+            citation_act = key
+            break
+
+    for chunk in retrieved_chunks:
+        chunk_citation_lower = chunk.full_citation.lower()
+        if chunk.section_number.lower() in citation_lower:
+            if citation_act is None or citation_act in chunk_citation_lower:
+                return chunk
+
+    # fallback: section number only
     for chunk in retrieved_chunks:
         if chunk.section_number.lower() in citation_lower:
             return chunk
-    # fallback: match just the leading number
-    section_num = re.search(r'\b(\d+[A-Z]?)\b', citation)
-    if section_num:
-        sec = section_num.group(1).upper()
-        for chunk in retrieved_chunks:
-            if chunk.section_number.upper().startswith(sec):
-                return chunk
+
     return None
 
 # ── main pipeline ─────────────────────────────────────────────────────────────
@@ -224,18 +256,28 @@ class LegalLensPipeline:
         "settlement compounding payment dispute resolution",
         "trial procedure summary conviction punishment",
     ],
+
     "eviction_notice": [
         document_text,
         "grounds for eviction landlord tenant recovery possession",
         "notice period rent arrears non-payment Karnataka",
         "bona fide personal requirement subletting misuse premises",
     ],
+
     "fir": [
     document_text,
     "FIR registration police duty cognizable offence procedure",
     "theft stolen property punishment dwelling house",
     "assault hurt grievous hurt criminal force punishment",
     "cheating fraud deception property wrongful loss",
+    ],
+
+    "rental_agreement": [
+    document_text,
+    "registration compulsory lease one year stamp duty",
+    "unstamped agreement inadmissible evidence penalty",
+    "lessor lessee rights liabilities rent maintenance",
+    "free consent essential elements valid contract",
 ],
 }
         sub_queries = sub_queries_map.get(doc_type, [document_text])

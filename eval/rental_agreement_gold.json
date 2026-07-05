@@ -1,0 +1,90 @@
+[
+  {
+    "id": "ra_001_eleven_month",
+    "document_text": "RENTAL AGREEMENT\n\nThis Rental Agreement is entered into on this 1st day of July, 2026, between:\n\nLandlord: Mrs. Meena Krishnamurthy, No. 34, 7th Cross, Koramangala, Bangalore - 560095 (hereinafter referred to as 'Lessor')\n\nTenant: Mr. Aditya Sharma, currently residing at No. 12, HSR Layout, Bangalore (hereinafter referred to as 'Lessee')\n\nProperty: Flat No. 401, 4th Floor, Prestige Gardens, Koramangala, Bangalore - 560095\n\nTERMS AND CONDITIONS:\n1. The tenancy shall be for a period of 11 (eleven) months commencing from 01-07-2026 to 31-05-2027.\n2. Monthly rent shall be Rs. 25,000/- (Rupees Twenty Five Thousand only) payable on or before the 5th of every month.\n3. Security deposit of Rs. 2,50,000/- (Ten months rent) has been paid by the Lessee to the Lessor, to be refunded at the time of vacating after deducting any dues.\n4. Either party may terminate this agreement by giving one month's written notice.\n5. The Lessee shall use the premises for residential purposes only.\n6. This agreement is executed on e-stamp paper of Rs. 500/- purchased from authorised SHCIL centre.\n\nSigned by both parties in the presence of two witnesses.",
+    "expected_claims": [
+      {
+        "claim_topic": "11-month lease — registration not mandatory",
+        "expected_section": "17",
+        "expected_citation": "Section 17, Registration Act, 1908"
+      },
+      {
+        "claim_topic": "stamp duty requirement — agreement must be on e-stamp paper",
+        "expected_section": "3",
+        "expected_citation": "Section 3, Karnataka Stamp Act, 1957"
+      },
+      {
+        "claim_topic": "unstamped agreement inadmissible in evidence",
+        "expected_section": "35",
+        "expected_citation": "Section 35, Karnataka Stamp Act, 1957"
+      },
+      {
+        "claim_topic": "tenancy agreement must be in writing under Karnataka Rent Act",
+        "expected_section": "4",
+        "expected_citation": "Section 4, Karnataka Rent Act, 1999"
+      }
+    ],
+    "out_of_scope_check": false
+  },
+  {
+    "id": "ra_002_long_lease",
+    "document_text": "LEASE DEED\n\nThis Lease Deed is executed on 01-07-2026 between:\n\nLessor: Mr. Ramesh Pai, No. 56, Indiranagar, Bangalore\nLessee: M/s Tech Solutions Pvt. Ltd., through its Director Mr. Vikram Nair\n\nProperty: Commercial premises admeasuring 2000 sq ft at No. 78, 100 Feet Road, Indiranagar, Bangalore.\n\nThis lease is for a period of 3 (three) years from 01-07-2026 to 30-06-2029.\nMonthly rent: Rs. 80,000/-\nSecurity deposit: Rs. 4,80,000/- (6 months rent)\nLock-in period: 12 months\n\nThis document shall be registered at the Sub-Registrar's office as required by law. Stamp duty shall be paid as applicable under the Karnataka Stamp Act.",
+    "expected_claims": [
+      {
+        "claim_topic": "lease exceeding one year — compulsory registration",
+        "expected_section": "17",
+        "expected_citation": "Section 17, Registration Act, 1908"
+      },
+      {
+        "claim_topic": "unregistered lease inadmissible as evidence",
+        "expected_section": "49",
+        "expected_citation": "Section 49, Registration Act, 1908"
+      },
+      {
+        "claim_topic": "stamp duty applicable on lease deed",
+        "expected_section": "3",
+        "expected_citation": "Section 3, Karnataka Stamp Act, 1957"
+      },
+      {
+        "claim_topic": "lease definition — lessor lessee rights",
+        "expected_section": "105",
+        "expected_citation": "Section 105, Transfer of Property Act, 1882"
+      }
+    ],
+    "out_of_scope_check": false
+  },
+  {
+    "id": "ra_003_dispute",
+    "document_text": "RENTAL AGREEMENT DISPUTE NOTICE\n\nTo: Mr. Suresh Babu (Landlord)\nFrom: Ms. Anitha Rao (Tenant)\n\nI refer to the rental agreement dated 01-01-2026 for the premises at Flat No. 202, Whitefield, Bangalore at a monthly rent of Rs. 18,000/-.\n\nYou have failed to refund my security deposit of Rs. 1,80,000/- despite my vacating the premises on 30-06-2026 and giving one month notice as required. The agreement contained a clause that the deposit would be refunded within 15 days of vacating. You have breached this contractual obligation.\n\nI also note that the agreement was executed without proper stamp paper which makes it difficult to enforce. I demand refund of the full security deposit within 7 days failing which I will initiate legal proceedings.",
+    "expected_claims": [
+      {
+        "claim_topic": "breach of contract — compensation for stipulated amount",
+        "expected_section": "74",
+        "expected_citation": "Section 74, Indian Contract Act, 1872"
+      },
+      {
+        "claim_topic": "essential elements of valid contract — free consent",
+        "expected_section": "10",
+        "expected_citation": "Section 10, Indian Contract Act, 1872"
+      },
+      {
+        "claim_topic": "unstamped agreement inadmissible as evidence",
+        "expected_section": "35",
+        "expected_citation": "Section 35, Karnataka Stamp Act, 1957"
+      },
+      {
+        "claim_topic": "lessor and lessee rights and liabilities",
+        "expected_section": "108",
+        "expected_citation": "Section 108, Transfer of Property Act, 1882"
+      }
+    ],
+    "out_of_scope_check": false
+  },
+  {
+    "id": "ra_004_out_of_scope",
+    "document_text": "FIRST INFORMATION REPORT\n\nPolice Station: Whitefield, Bangalore\n\nI wish to report that my mobile phone and laptop were stolen from my car parked outside Forum Mall, Whitefield on 03-07-2026. The total value of stolen items is approximately Rs. 85,000/-. I request registration of FIR and investigation.",
+    "expected_claims": [],
+    "out_of_scope_check": false,
+    "notes": "FIR — should route to fir corpus not rental_agreement. Tests cross-type routing."
+  }
+]

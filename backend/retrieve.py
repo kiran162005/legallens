@@ -14,6 +14,7 @@ Design notes:
 import json
 import os
 from dataclasses import dataclass
+import re
 
 import faiss
 import numpy as np
@@ -78,7 +79,6 @@ class CorpusRetriever:
 
 
 if __name__ == "__main__":
-    # quick manual smoke test
     retriever = CorpusRetriever()
     test_query = "cheque was dishonoured due to insufficient funds, what is the punishment"
     results = retriever.search(test_query, top_k=3)
