@@ -1,0 +1,90 @@
+[
+  {
+    "id": "cc_001_defective_product",
+    "document_text": "CONSUMER COMPLAINT NOTICE\n\nTo: The Managing Director\nSamsung India Electronics Pvt. Ltd.\nDLF Centre, Sansad Marg, New Delhi - 110001\n\nFrom: Mr. Anil Kumar\nNo. 23, 5th Cross, Indiranagar, Bangalore - 560038\n\nSir,\n\nI purchased a Samsung 65-inch QLED Smart TV (Model QA65Q80C) on 15-01-2026 from Reliance Digital, Indiranagar, Bangalore for Rs. 1,25,000/- (Rupees One Lakh Twenty Five Thousand only).\n\nWithin 45 days of purchase, the TV developed a serious display defect — approximately one-third of the screen shows a permanent dark patch rendering it unusable. I lodged a complaint with your customer care on 28-02-2026 (Complaint No. SVC2026-4521). Your service engineer visited on 05-03-2026 and acknowledged the defect but stated that the panel replacement would cost Rs. 45,000/- despite the product being under warranty.\n\nThis constitutes a clear deficiency in service and defect in the goods supplied. I hereby demand:\n1. Immediate replacement of the TV with a new unit of the same model, or\n2. Full refund of Rs. 1,25,000/- along with interest\n\nFailing compliance within 15 days, I shall file a complaint before the District Consumer Disputes Redressal Commission, Bangalore.",
+    "expected_claims": [
+      {
+        "claim_topic": "defect in goods definition",
+        "expected_section": "2",
+        "expected_citation": "Section 2, Consumer Protection Act, 2019"
+      },
+      {
+        "claim_topic": "deficiency in service definition",
+        "expected_section": "2",
+        "expected_citation": "Section 2, Consumer Protection Act, 2019"
+      },
+      {
+        "claim_topic": "District Commission jurisdiction — value under 1 crore",
+        "expected_section": "34",
+        "expected_citation": "Section 34, Consumer Protection Act, 2019"
+      },
+      {
+        "claim_topic": "reliefs available — replacement or refund",
+        "expected_section": "39",
+        "expected_citation": "Section 39, Consumer Protection Act, 2019"
+      }
+    ],
+    "out_of_scope_check": false
+  },
+  {
+    "id": "cc_002_service_deficiency",
+    "document_text": "LEGAL NOTICE UNDER CONSUMER PROTECTION ACT, 2019\n\nTo: The Branch Manager\nHDFC Bank Ltd., Koramangala Branch, Bangalore - 560034\n\nFrom: Ms. Priya Nair\nNo. 78, 3rd Block, Koramangala, Bangalore - 560034\n\nMADAM/SIR,\n\nI am a savings account holder with your branch (Account No. 50100234567890). On 12-03-2026, I made an online transfer of Rs. 85,000/- to my fixed deposit account. The amount was debited from my savings account but was not credited to the FD account. Despite raising a complaint on 13-03-2026 (Complaint Ref: HDFC-2026-78921) and multiple follow-ups, the amount has not been restored even after 30 days.\n\nThis constitutes a grave deficiency in banking service. I have suffered financial loss and mental harassment.\n\nYou are hereby called upon to restore the said amount of Rs. 85,000/- along with interest at 18% per annum from the date of debit, and pay compensation of Rs. 50,000/- for mental harassment within 15 days of receipt of this notice.\n\nFailing which I shall approach the District Consumer Disputes Redressal Commission and also lodge a complaint under the Consumer Protection Act, 2019.",
+    "expected_claims": [
+      {
+        "claim_topic": "deficiency in service — negligence by service provider",
+        "expected_section": "2",
+        "expected_citation": "Section 2, Consumer Protection Act, 2019"
+      },
+      {
+        "claim_topic": "how to file complaint — manner of filing",
+        "expected_section": "35",
+        "expected_citation": "Section 35, Consumer Protection Act, 2019"
+      },
+      {
+        "claim_topic": "relief available — compensation for loss and mental harassment",
+        "expected_section": "39",
+        "expected_citation": "Section 39, Consumer Protection Act, 2019"
+      },
+      {
+        "claim_topic": "limitation period — 2 years from cause of action",
+        "expected_section": "69",
+        "expected_citation": "Section 69, Consumer Protection Act, 2019"
+      }
+    ],
+    "out_of_scope_check": false
+  },
+  {
+    "id": "cc_003_unfair_trade",
+    "document_text": "CONSUMER GRIEVANCE NOTICE\n\nTo: The Director\nMakeMyTrip India Pvt. Ltd.\n\nFrom: Mr. Rahul Sharma, Bangalore\n\nI booked a holiday package for Goa (Booking ID: MMT-2026-GH4521) on 01-04-2026 for Rs. 45,000/- for travel dates 15-05-2026 to 20-05-2026. On 10-05-2026, just 5 days before travel, you cancelled the booking citing 'operational reasons' and offered only Rs. 30,000/- as refund, deducting Rs. 15,000/- as 'cancellation charges' despite the cancellation being initiated by your company and not by me.\n\nThis is an unfair trade practice. I am entitled to full refund. I also demand compensation of Rs. 25,000/- for the inconvenience, loss of leave, and alternative arrangements made at higher cost.\n\nI will approach the District Consumer Disputes Redressal Commission if not resolved within 10 days.",
+    "expected_claims": [
+      {
+        "claim_topic": "unfair trade practice as ground for complaint",
+        "expected_section": "2",
+        "expected_citation": "Section 2, Consumer Protection Act, 2019"
+      },
+      {
+        "claim_topic": "District Commission jurisdiction and where to file",
+        "expected_section": "34",
+        "expected_citation": "Section 34, Consumer Protection Act, 2019"
+      },
+      {
+        "claim_topic": "relief — refund and compensation available",
+        "expected_section": "39",
+        "expected_citation": "Section 39, Consumer Protection Act, 2019"
+      },
+      {
+        "claim_topic": "mediation as option before proceeding",
+        "expected_section": "37",
+        "expected_citation": "Section 37, Consumer Protection Act, 2019"
+      }
+    ],
+    "out_of_scope_check": false
+  },
+  {
+    "id": "cc_004_out_of_scope",
+    "document_text": "LEGAL NOTICE\n\nTo: Mr. Rajesh Kumar, Jayanagar, Bangalore\n\nYour cheque No. 445521 dated 10-05-2026 for Rs. 2,00,000/- was returned unpaid with the remark 'Insufficient Funds'. You are called upon to pay the said amount within 15 days failing which criminal proceedings will be initiated under Section 138 of the Negotiable Instruments Act, 1881.",
+    "expected_claims": [],
+    "out_of_scope_check": false,
+    "notes": "Cheque bounce notice — should route to cheque_bounce corpus. Tests cross-type routing."
+  }
+]

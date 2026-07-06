@@ -43,10 +43,12 @@ SUPPORTED_TYPES = {
             os.path.dirname(__file__), "..", "corpus", "ni_act_cheque_bounce.json"
         ),
         "keywords": [
-            "cheque", "dishonour", "dishonored", "bounced", "insufficient funds",
-            "negotiable instruments", "section 138", "demand notice", "unpaid",
-            "drawer", "payee", "bank memo", "returned unpaid",
-        ],
+        "cheque", "dishonour", "dishonored", "bounced", "insufficient funds",
+        "negotiable instruments", "section 138", "demand notice", "unpaid",
+        "drawer", "payee", "bank memo", "returned unpaid", "account closed",
+        "fifteen days", "legal notice", "dishonoured cheque", "ni act",
+        "holder in due course", "criminal proceedings",
+    ],
         "description": "Cheque bounce demand notice (NI Act Section 138)",
     },
 
@@ -88,7 +90,20 @@ SUPPORTED_TYPES = {
     ],
     "description": "Rental/lease agreement (Registration Act + Karnataka Stamp Act + Contract Act)",
 },
-    # eviction_notice, rental_agreement, fir, consumer_complaint → added in next sprint
+
+    "consumer_complaint": {
+    "corpus_path": os.path.join(
+        os.path.dirname(__file__), "..", "corpus", "consumer_protection_act.json"
+    ),
+    "keywords": [
+        "consumer complaint", "deficiency", "defect", "consumer forum",
+        "district commission", "consumer protection", "unfair trade practice",
+        "refund", "replacement", "service provider", "manufacturer",
+        "consumer court", "compensation", "goods", "services",
+    ],
+    "description": "Consumer complaint notice (Consumer Protection Act 2019)",
+},
+   
 }
 
 TOP_K_CHUNKS = 6          # retrieve top 4 chunks per query
@@ -111,7 +126,7 @@ def detect_document_type(text: str) -> str | None:
             best_score, best_type = score, doc_type
 
     # require at least 2 keyword hits to avoid false positives
-    return best_type if best_score >= 2 else None
+    return best_type if best_score >= 3 else None
 
 
 # ── grounding confidence ──────────────────────────────────────────────────────
@@ -234,9 +249,8 @@ class LegalLensPipeline:
                 out_of_scope=True,
                 reason=(
                     "This document does not appear to match any supported document type. "
-                    "Currently supported: cheque bounce notices (NI Act Section 138). "
-                    "Eviction notices, FIRs, rental agreements, and consumer complaints "
-                    "will be supported in a future version."
+                    "Currently supported: cheque bounce notices, eviction notices, FIRs, "
+                    "rental agreements, and consumer complaints."
                 ),
                 claims=[],
                 low_confidence_warning=False,
@@ -278,7 +292,15 @@ class LegalLensPipeline:
     "unstamped agreement inadmissible evidence penalty",
     "lessor lessee rights liabilities rent maintenance",
     "free consent essential elements valid contract",
-],
+    ],
+
+    "consumer_complaint": [
+    document_text,
+    "consumer complaint filing District Commission jurisdiction",
+    "deficiency service defect goods refund replacement compensation",
+    "limitation period two years cause of action",
+    "non-compliance order penalty imprisonment fine",
+    ],
 }
         sub_queries = sub_queries_map.get(doc_type, [document_text])
 

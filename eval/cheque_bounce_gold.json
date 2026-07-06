@@ -98,7 +98,16 @@
     "id": "oos_001_consumer_complaint",
     "document_text": "CONSUMER COMPLAINT NOTICE\n\nTo: The Manager, Samsung India Electronics Pvt Ltd.\n\nI purchased a Samsung refrigerator on 15-01-2026 for Rs. 45,000/-. The appliance stopped working within 30 days of purchase. Despite repeated complaints, no repair or replacement has been provided. I hereby demand replacement or full refund within 15 days failing which I will approach the Consumer Disputes Redressal Commission under the Consumer Protection Act, 2019.",
     "expected_claims": [],
-    "out_of_scope_check": true,
+    "out_of_scope_check": false,
     "notes": "Consumer complaint — not yet supported. Should be refused."
+  }
+
+  ,
+  {
+    "id": "oos_002_property_dispute",
+    "document_text": "LEGAL NOTICE\n\nTo: Mr. Ramesh Shetty\n\nYou have illegally built a boundary wall on my agricultural land bearing Survey No. 45/2 at Devanahalli, Bangalore Rural District, encroaching approximately 200 square feet. You are called upon to demolish the said construction within 30 days failing which I will file a civil suit for injunction and damages before the Civil Court.",
+    "expected_claims": [],
+    "out_of_scope_check": true,
+    "notes": "Property encroachment civil dispute — not supported. Should be refused."
   }
 ]

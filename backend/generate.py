@@ -83,8 +83,22 @@ class GroundedExplainer:
         )
 
         raw = response.choices[0].message.content
+        
         try:
-            return json.loads(raw)
+            result = json.loads(raw)
+            # retry once if claims list is empty — LLM occasionally returns empty on short docs
+            if not result.get("claims") and not result.get("out_of_scope"):
+                response2 = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[
+                        {"role": "system", "content": SYSTEM_PROMPT},
+                        {"role": "user", "content": user_prompt},
+                    ],
+                    temperature=0.1,
+                    response_format={"type": "json_object"},
+                )
+                result = json.loads(response2.choices[0].message.content)
+            return result
         except json.JSONDecodeError as e:
             return {
                 "out_of_scope": False,
