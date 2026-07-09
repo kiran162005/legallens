@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LegalLens</title>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #1a1a2e;
+      --ink-soft:  #4a4a6a;
+      --ink-muted: #8a8aaa;
+      --rule:      #e0e0f0;
+      --paper:     #f7f7fb;
+      --white:     #ffffff;
+      --accent:    #2d5be3;
+      --accent-soft: #eef2fd;
+      --ok:        #1a7a4a;
+      --ok-soft:   #e8f5ee;
+      --warn:      #b45309;
+      --warn-soft: #fef3e2;
+      --danger:    #c0392b;
+      --danger-soft: #fdecea;
+      --serif: 'Crimson Pro', Georgia, serif;
+      --sans:  'Inter', system-ui, sans-serif;
+      --mono:  'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── header ── */
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--rule);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      height: 56px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    .tagline {
+      font-size: 0.75rem;
+      color: var(--ink-muted);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-left: 1px solid var(--rule);
+      padding-left: 1rem;
+      margin-left: 0.25rem;
+    }
+
+    /* ── main layout ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+    }
+
+    /* ── input panel ── */
+    .input-panel {
+      background: var(--white);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .panel-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .panel-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+
+    .doc-type-badges {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 0.65rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 100px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 500;
+      letter-spacing: 0.03em;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 180px;
+      padding: 1.25rem;
+      border: none;
+      outline: none;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      line-height: 1.7;
+      color: var(--ink);
+      background: var(--white);
+      resize: vertical;
+    }
+
+    textarea::placeholder { color: var(--ink-muted); }
+
+    .input-footer {
+      padding: 0.75rem 1.25rem;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .char-count {
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .analyze-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.55rem 1.4rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--sans);
+      letter-spacing: 0.01em;
+      transition: opacity 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .analyze-btn:hover { opacity: 0.88; }
+    .analyze-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .spinner {
+      width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: none;
+    }
+    .loading .spinner { display: block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── sample buttons ── */
+    .samples {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .samples-label {
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .sample-btn {
+      font-size: 0.72rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 100px;
+      border: 1px solid var(--rule);
+      background: var(--white);
+      color: var(--ink-soft);
+      cursor: pointer;
+      font-family: var(--sans);
+      font-weight: 500;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .sample-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── result panel ── */
+    .result-panel { display: none; }
+    .result-panel.visible { display: block; }
+
+    /* ── doc type pill ── */
+    .result-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .doc-type-pill {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border-radius: 100px;
+      background: var(--accent);
+      color: white;
+    }
+
+    .meta-stat {
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+    }
+
+    .meta-stat strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    /* ── warning banner ── */
+    .warn-banner {
+      background: var(--warn-soft);
+      border: 1px solid #f6d860;
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      font-size: 0.82rem;
+      color: var(--warn);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+    }
+
+    .oos-banner {
+      background: var(--danger-soft);
+      border: 1px solid #f5c6c2;
+      border-radius: 6px;
+      padding: 1rem 1.25rem;
+      font-size: 0.85rem;
+      color: var(--danger);
+      margin-bottom: 1.25rem;
+    }
+
+    .oos-banner strong { display: block; margin-bottom: 0.25rem; }
+
+    /* ── claims list ── */
+    .claims-header {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .claim-card {
+      background: var(--white);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+      transition: border-color 0.15s;
+    }
+
+    .claim-card:hover { border-color: #c0c0e0; }
+
+    .claim-card.flag-low { border-left: 3px solid var(--warn); }
+    .claim-card.flag-uncited { border-left: 3px solid var(--danger); }
+    .claim-card.flag-ok { border-left: 3px solid var(--ok); }
+
+    .claim-body {
+      padding: 1rem 1.25rem 0.75rem;
+    }
+
+    .claim-text {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      line-height: 1.55;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+    }
+
+    .claim-footer {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .citation-tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-family: var(--mono);
+    }
+
+    .conf-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-left: auto;
+    }
+
+    .conf-label {
+      font-size: 0.68rem;
+      color: var(--ink-muted);
+      white-space: nowrap;
+    }
+
+    .conf-bar {
+      width: 60px;
+      height: 4px;
+      background: var(--rule);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .conf-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: var(--ok);
+      transition: width 0.4s ease;
+    }
+
+    .conf-fill.low { background: var(--warn); }
+    .conf-fill.uncited { background: var(--danger); }
+
+    .conf-value {
+      font-size: 0.68rem;
+      font-variant-numeric: tabular-nums;
+      color: var(--ink-soft);
+      font-family: var(--mono);
+      width: 2.5rem;
+    }
+
+    /* ── source quote (expandable) ── */
+    .quote-toggle {
+      width: 100%;
+      padding: 0.5rem 1.25rem;
+      border: none;
+      border-top: 1px solid var(--rule);
+      background: var(--paper);
+      text-align: left;
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+      cursor: pointer;
+      font-family: var(--sans);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.1s;
+    }
+    .quote-toggle:hover { background: #efeffa; }
+
+    .arrow { transition: transform 0.2s; display: inline-block; }
+    .open .arrow { transform: rotate(90deg); }
+
+    .quote-block {
+      display: none;
+      padding: 0.75rem 1.25rem;
+      border-top: 1px solid var(--rule);
+      background: #fafafa;
+    }
+    .quote-block.open { display: block; }
+
+    .quote-text {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      line-height: 1.7;
+      color: var(--ink-soft);
+      white-space: pre-wrap;
+    }
+
+    .quote-source {
+      font-size: 0.68rem;
+      color: var(--ink-muted);
+      margin-top: 0.4rem;
+    }
+
+    /* ── grounding summary ── */
+    .grounding-summary {
+      background: var(--white);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-item { display: flex; flex-direction: column; gap: 0.2rem; }
+
+    .stat-value {
+      font-family: var(--mono);
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .stat-value.good { color: var(--ok); }
+    .stat-value.bad { color: var(--danger); }
+
+    .stat-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-muted);
+      font-weight: 600;
+    }
+
+    /* ── error ── */
+    .error-msg {
+      background: var(--danger-soft);
+      border: 1px solid #f5c6c2;
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      font-size: 0.82rem;
+      color: var(--danger);
+      margin-top: 1rem;
+      display: none;
+    }
+    .error-msg.visible { display: block; }
+
+    @media (max-width: 600px) {
+      main { padding: 1.5rem 1rem; }
+      header { padding: 0 1rem; }
+      .tagline { display: none; }
+      .grounding-summary { gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Legal<span>Lens</span></div>
+  <div class="tagline">Grounded Legal Document Analysis</div>
+</header>
+
+<main>
+
+  <!-- sample documents -->
+  <div class="samples">
+    <span class="samples-label">Try a sample:</span>
+    <button class="sample-btn" onclick="loadSample('cheque')">Cheque Bounce Notice</button>
+    <button class="sample-btn" onclick="loadSample('eviction')">Eviction Notice</button>
+    <button class="sample-btn" onclick="loadSample('fir')">FIR Complaint</button>
+    <button class="sample-btn" onclick="loadSample('rental')">Rental Agreement</button>
+    <button class="sample-btn" onclick="loadSample('consumer')">Consumer Complaint</button>
+  </div>
+
+  <!-- input -->
+  <div class="input-panel">
+    <div class="panel-header">
+      <span class="panel-label">Paste your legal document</span>
+      <div class="doc-type-badges">
+        <span class="badge">Cheque Bounce</span>
+        <span class="badge">Eviction</span>
+        <span class="badge">FIR</span>
+        <span class="badge">Rental</span>
+        <span class="badge">Consumer</span>
+      </div>
+    </div>
+    <textarea id="docInput" placeholder="Paste a legal notice, FIR, rental agreement, or consumer complaint here..." oninput="updateCount()"></textarea>
+    <div class="input-footer">
+      <span class="char-count" id="charCount">0 / 10,000 characters</span>
+      <button class="analyze-btn" id="analyzeBtn" onclick="analyze()">
+        <div class="spinner" id="spinner"></div>
+        Analyze Document
+      </button>
+    </div>
+  </div>
+
+  <div class="error-msg" id="errorMsg"></div>
+
+  <!-- results -->
+  <div class="result-panel" id="resultPanel">
+
+    <div class="result-meta" id="resultMeta"></div>
+    <div id="warningBanner"></div>
+    <div id="claimsContainer"></div>
+    <div class="grounding-summary" id="groundingSummary"></div>
+
+  </div>
+
+</main>
+
+<script>
+  const API = 'http://localhost:8000';
+
+  const SAMPLES = {
+    cheque: `LEGAL NOTICE
+
+To: Mr. Rajesh Kumar, No. 45, 4th Cross, Jayanagar, Bangalore - 560011
+
+Subject: Notice under Section 138 of the Negotiable Instruments Act, 1881
+
+Sir,
+
+Under instructions from my client Mr. Suresh Patel, I serve this notice upon you.
+
+You had issued Cheque No. 002145 dated 12-03-2026 drawn on HDFC Bank for Rs. 3,50,000/- towards repayment of a loan. The cheque was returned unpaid on 18-03-2026 with the remark "Funds Insufficient".
+
+You are called upon to pay Rs. 3,50,000/- within 15 days of receipt of this notice, failing which criminal proceedings will be initiated under Section 138 of the Negotiable Instruments Act, 1881.`,
+
+    eviction: `NOTICE TO VACATE
+
+To: Mr. Arun Sharma
+Flat No. 8, 2nd Floor, Shree Residency, Malleshwaram, Bangalore - 560003
+
+Sir,
+
+Under instructions from Mrs. Kavitha Reddy, owner of the above premises, I issue this notice.
+
+You are a tenant at a monthly rent of Rs. 18,000/-. You have failed to pay rent for April, May and June 2026. Total arrears: Rs. 54,000/-.
+
+You are called upon to pay the said arrears within two months from receipt of this notice, failing which eviction proceedings will be initiated before the Rent Control Court under the Karnataka Rent Act, 1999.`,
+
+    fir: `FIRST INFORMATION REPORT
+
+Police Station: Jayanagar, Bangalore
+Date: 02-07-2026
+
+Complainant: Mr. Vinod Nair, No. 12, 8th Cross, Jayanagar, Bangalore
+
+I wish to report that on the night of 01-07-2026, unknown persons broke into my house while my family was sleeping. Upon waking, I found my laptop, mobile phone, gold jewellery worth Rs. 2,50,000/- and Rs. 15,000/- cash had been stolen. The cupboard lock was broken.
+
+I request the police to register an FIR and investigate the matter.`,
+
+    rental: `RENTAL AGREEMENT
+
+This Rental Agreement is entered into on 1st July 2026 between:
+
+Landlord: Mrs. Meena Krishnamurthy, Koramangala, Bangalore (Lessor)
+Tenant: Mr. Aditya Sharma, HSR Layout, Bangalore (Lessee)
+Property: Flat No. 401, Prestige Gardens, Koramangala, Bangalore
+
+TERMS:
+1. Tenancy period: 11 months from 01-07-2026 to 31-05-2027
+2. Monthly rent: Rs. 25,000/- payable by 5th of each month
+3. Security deposit: Rs. 2,50,000/- (refundable)
+4. Notice period: One month written notice by either party
+5. Use: Residential purposes only
+6. Executed on e-stamp paper of Rs. 500/- from authorised SHCIL centre.`,
+
+    consumer: `CONSUMER COMPLAINT NOTICE
+
+To: The Managing Director
+Samsung India Electronics Pvt. Ltd.
+
+From: Mr. Anil Kumar, Indiranagar, Bangalore
+
+I purchased a Samsung 65-inch QLED Smart TV on 15-01-2026 for Rs. 1,25,000/- from Reliance Digital, Bangalore.
+
+Within 45 days, the TV developed a serious display defect — one-third of the screen shows a permanent dark patch. Your service engineer visited on 05-03-2026 and acknowledged the defect but demanded Rs. 45,000/- for panel replacement despite the product being under warranty.
+
+I demand:
+1. Immediate replacement with a new unit, or
+2. Full refund of Rs. 1,25,000/-
+
+Failing compliance within 15 days, I shall file a complaint before the District Consumer Disputes Redressal Commission, Bangalore.`
+  };
+
+  function loadSample(type) {
+    document.getElementById('docInput').value = SAMPLES[type];
+    updateCount();
+  }
+
+  function updateCount() {
+    const len = document.getElementById('docInput').value.length;
+    document.getElementById('charCount').textContent = `${len.toLocaleString()} / 10,000 characters`;
+  }
+
+  function setLoading(on) {
+    const btn = document.getElementById('analyzeBtn');
+    const spinner = document.getElementById('spinner');
+    btn.disabled = on;
+    btn.classList.toggle('loading', on);
+    spinner.style.display = on ? 'block' : 'none';
+    btn.childNodes[btn.childNodes.length - 1].textContent = on ? ' Analyzing...' : ' Analyze Document';
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('errorMsg');
+    el.textContent = msg;
+    el.classList.add('visible');
+  }
+
+  function hideError() {
+    document.getElementById('errorMsg').classList.remove('visible');
+  }
+
+  const DOC_TYPE_LABELS = {
+    cheque_bounce: 'Cheque Bounce Notice',
+    eviction_notice: 'Eviction Notice',
+    fir: 'First Information Report',
+    rental_agreement: 'Rental Agreement',
+    consumer_complaint: 'Consumer Complaint',
+  };
+
+  async function analyze() {
+    const text = document.getElementById('docInput').value.trim();
+    if (!text) { showError('Please paste a document to analyze.'); return; }
+    if (text.length > 10000) { showError('Document too long (max 10,000 characters).'); return; }
+
+    hideError();
+    setLoading(true);
+    document.getElementById('resultPanel').classList.remove('visible');
+
+    try {
+      const res = await fetch(`${API}/analyze`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ document_text: text }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.detail || 'Server error');
+      }
+
+      const data = await res.json();
+      renderResult(data);
+
+    } catch (e) {
+      showError(`Error: ${e.message}. Make sure the backend is running at ${API}`);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function renderResult(data) {
+    const panel = document.getElementById('resultPanel');
+    const meta = document.getElementById('resultMeta');
+    const warning = document.getElementById('warningBanner');
+    const claims = document.getElementById('claimsContainer');
+    const summary = document.getElementById('groundingSummary');
+
+    // clear previous
+    meta.innerHTML = '';
+    warning.innerHTML = '';
+    claims.innerHTML = '';
+    summary.innerHTML = '';
+
+    // out of scope
+    if (data.out_of_scope) {
+      warning.innerHTML = `
+        <div class="oos-banner">
+          <strong>Document type not supported</strong>
+          ${data.reason}
+        </div>`;
+      panel.classList.add('visible');
+      return;
+    }
+
+    // meta row
+    meta.innerHTML = `
+      <span class="doc-type-pill">${DOC_TYPE_LABELS[data.document_type] || data.document_type}</span>
+      <span class="meta-stat"><strong>${data.claims.length}</strong> claims generated</span>
+      <span class="meta-stat">avg grounding <strong>${(data.avg_grounding_confidence * 100).toFixed(0)}%</strong></span>
+    `;
+
+    // low confidence warning
+    if (data.low_confidence_warning) {
+      warning.innerHTML = `
+        <div class="warn-banner">
+          ⚠ Some claims have low grounding confidence — verify these against the source sections before relying on them.
+        </div>`;
+    }
+
+    // claims
+    const claimsHeader = document.createElement('div');
+    claimsHeader.className = 'claims-header';
+    claimsHeader.textContent = 'Plain-language explanation with statutory citations';
+    claims.appendChild(claimsHeader);
+
+    data.claims.forEach((claim, i) => {
+      const conf = claim.grounding_confidence;
+      const flag = claim.confidence_flag;
+
+      const card = document.createElement('div');
+      card.className = `claim-card flag-${flag}`;
+
+      const fillClass = flag === 'ok' ? '' : flag;
+
+      card.innerHTML = `
+        <div class="claim-body">
+          <div class="claim-text">${escHtml(claim.claim_text)}</div>
+          <div class="claim-footer">
+            <span class="citation-tag">${escHtml(claim.full_citation)}</span>
+            <div class="conf-bar-wrap">
+              <span class="conf-label">grounding</span>
+              <div class="conf-bar">
+                <div class="conf-fill ${fillClass}" style="width:${Math.round(conf*100)}%"></div>
+              </div>
+              <span class="conf-value">${(conf * 100).toFixed(0)}%</span>
+            </div>
+          </div>
+        </div>
+        <button class="quote-toggle" id="toggle-${i}" onclick="toggleQuote(${i})">
+          <span class="arrow">▶</span> View source quote
+        </button>
+        <div class="quote-block" id="quote-${i}">
+          <div class="quote-text">${escHtml('"' + claim.source_quote + '"')}</div>
+          <div class="quote-source">${escHtml(claim.full_citation)}</div>
+        </div>
+      `;
+      claims.appendChild(card);
+    });
+
+    // grounding summary
+    const uncited = data.claims.filter(c => c.confidence_flag === 'uncited').length;
+    const low = data.claims.filter(c => c.confidence_flag === 'low').length;
+    const ok = data.claims.filter(c => c.confidence_flag === 'ok').length;
+
+    summary.innerHTML = `
+      <div class="stat-item">
+        <span class="stat-value good">${ok}</span>
+        <span class="stat-label">Grounded claims</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value ${low > 0 ? 'bad' : ''}">${low}</span>
+        <span class="stat-label">Low confidence</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value ${uncited > 0 ? 'bad' : 'good'}">${uncited}</span>
+        <span class="stat-label">Uncited claims</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">${(data.avg_grounding_confidence * 100).toFixed(0)}%</span>
+        <span class="stat-label">Avg grounding</span>
+      </div>
+    `;
+
+    panel.classList.add('visible');
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function toggleQuote(i) {
+    const block = document.getElementById(`quote-${i}`);
+    const btn = document.getElementById(`toggle-${i}`);
+    const isOpen = block.classList.contains('open');
+    block.classList.toggle('open', !isOpen);
+    btn.classList.toggle('open', !isOpen);
+    btn.querySelector('.arrow').style.transform = isOpen ? '' : 'rotate(90deg)';
+    btn.childNodes[btn.childNodes.length - 1].textContent = isOpen ? ' View source quote' : ' Hide source quote';
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+</script>
+</body>
+</html>
