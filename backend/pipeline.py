@@ -100,6 +100,8 @@ SUPPORTED_TYPES = {
         "district commission", "consumer protection", "unfair trade practice",
         "refund", "replacement", "service provider", "manufacturer",
         "consumer court", "compensation", "goods", "services",
+        "compensation", "refund", "flight", "cancelled", "deficiency of service",
+        "consumer forum", "redressal", "grievance",
     ],
     "description": "Consumer complaint notice (Consumer Protection Act 2019)",
 },
@@ -357,6 +359,12 @@ class LegalLensPipeline:
                     grounding_confidence=conf,
                     confidence_flag="ok" if conf >= CONFIDENCE_THRESHOLD else "low",
                 ))
+
+        # drop claims with empty citations or quotes — model occasionally generates these
+        annotated_claims = [
+            c for c in annotated_claims
+            if c.full_citation.strip() and c.source_quote.strip()
+        ]
 
         # ── 5. aggregate ──────────────────────────────────────────────────────
         if annotated_claims:
