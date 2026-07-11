@@ -456,6 +456,42 @@
     }
     .error-msg.visible { display: block; }
 
+
+    /* ── upload zone ── */
+    .upload-zone {
+      border: 1.5px dashed var(--rule);
+      border-radius: 8px;
+      padding: 1.25rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      margin-bottom: 1rem;
+      background: var(--white);
+    }
+    .upload-zone:hover, .upload-zone.drag-over {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+    .upload-zone input[type="file"] { display: none; }
+    .upload-icon { font-size: 1.4rem; margin-bottom: 0.3rem; }
+    .upload-label {
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      font-weight: 500;
+    }
+    .upload-label span { color: var(--accent); text-decoration: underline; }
+    .upload-sub {
+      font-size: 0.68rem;
+      color: var(--ink-muted);
+      margin-top: 0.2rem;
+    }
+    .upload-status {
+      font-size: 0.75rem;
+      color: var(--ok);
+      margin-top: 0.4rem;
+      font-weight: 500;
+      display: none;
+    }
     @media (max-width: 600px) {
       main { padding: 1.5rem 1rem; }
       header { padding: 0 1rem; }
@@ -481,6 +517,15 @@
     <button class="sample-btn" onclick="loadSample('fir')">FIR Complaint</button>
     <button class="sample-btn" onclick="loadSample('rental')">Rental Agreement</button>
     <button class="sample-btn" onclick="loadSample('consumer')">Consumer Complaint</button>
+  </div>
+
+  <!-- file upload -->
+  <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
+    <input type="file" id="fileInput" accept=".pdf,.txt" onchange="handleFile(event)" />
+    <div class="upload-icon">📄</div>
+    <div class="upload-label"><span>Upload a file</span> or drag and drop</div>
+    <div class="upload-sub">PDF or TXT — text will appear in the box below</div>
+    <div class="upload-status" id="uploadStatus"></div>
   </div>
 
   <!-- input -->
@@ -520,7 +565,7 @@
 </main>
 
 <script>
-  const API = 'http://localhost:8000';
+  const API = 'http://localhost:8080';
 
   const SAMPLES = {
     cheque: `LEGAL NOTICE
@@ -780,6 +825,64 @@ Failing compliance within 15 days, I shall file a complaint before the District 
     btn.childNodes[btn.childNodes.length - 1].textContent = isOpen ? ' View source quote' : ' Hide source quote';
   }
 
+
+  // ── file upload ──────────────────────────────────────────────────────────
+  function dragOver(e) {
+    e.preventDefault();
+    document.getElementById('uploadZone').classList.add('drag-over');
+  }
+  function dragLeave(e) {
+    document.getElementById('uploadZone').classList.remove('drag-over');
+  }
+  function dropFile(e) {
+    e.preventDefault();
+    dragLeave(e);
+    const file = e.dataTransfer.files[0];
+    if (file) uploadFile(file);
+  }
+  function handleFile(e) {
+    const file = e.target.files[0];
+    if (file) uploadFile(file);
+  }
+
+  async function uploadFile(file) {
+    const status = document.getElementById('uploadStatus');
+    const zone = document.getElementById('uploadZone');
+    const ext = file.name.split('.').pop().toLowerCase();
+
+    if (!['pdf', 'txt'].includes(ext)) {
+      status.style.display = 'block';
+      status.style.color = 'var(--danger)';
+      status.textContent = 'Only PDF and TXT files supported.';
+      return;
+    }
+
+    status.style.display = 'block';
+    status.style.color = 'var(--ink-muted)';
+    status.textContent = 'Extracting text...';
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch(`${API}/extract`, { method: 'POST', body: formData });
+      const data = await res.json();
+
+      if (!res.ok) {
+        status.style.color = 'var(--danger)';
+        status.textContent = data.detail || 'Extraction failed.';
+        return;
+      }
+
+      document.getElementById('docInput').value = data.text;
+      updateCount();
+      status.style.color = 'var(--ok)';
+      status.textContent = `Extracted ${data.chars.toLocaleString()} characters from ${file.name}`;
+    } catch (e) {
+      status.style.color = 'var(--danger)';
+      status.textContent = 'Upload failed. Is the backend running?';
+    }
+  }
   function escHtml(str) {
     return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
