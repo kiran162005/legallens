@@ -309,7 +309,8 @@ class LegalLensPipeline:
         seen_ids = set()
         retrieved = []
         for query in sub_queries:
-            for chunk in retriever.search(query, top_k=3):
+            for chunk in retriever.search(query, top_k=3, doc_type=doc_type):
+
                 if chunk.chunk_id not in seen_ids:
                     seen_ids.add(chunk.chunk_id)
                     retrieved.append(chunk)
