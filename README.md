@@ -181,4 +181,3 @@ Each chunk records source_url and last_verified_date for provenance.
 
 Kiran T, CSE, Garden City University Bangalore (2023-2027)
 
-[GitHub](https://github.com/kiran162005) | [LegalLens Repo](https://github.com/kiran162005/legallens)
